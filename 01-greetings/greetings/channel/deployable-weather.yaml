@@ -30,10 +30,18 @@ spec:
         spec:
           containers:
             - name: my-container
-              image: gandhicloud/weather
-              imagePullPolicy: IfNotPresent
+              image: gandhicloud/weather-icam
+              imagePullPolicy: Always
               ports:
                 - containerPort: 9091
+          volumeMounts:
+            - name: global-environment
+              mountPath: /opt/ibm/apm/serverconfig
+          volumes:
+            - name: global-environment
+              secret:
+                secretName: icam-server-secret
+                optional: true                
 ---
 apiVersion: app.ibm.com/v1alpha1
 kind: Deployable

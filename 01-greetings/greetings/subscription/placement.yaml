@@ -11,3 +11,4 @@ spec:
   clusterLabels:
     matchLabels:
       name: ibmocpa
+      # region: EU

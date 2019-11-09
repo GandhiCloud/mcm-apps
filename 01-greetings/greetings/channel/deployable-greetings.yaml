@@ -31,7 +31,7 @@ spec:
           containers:
             - name: my-container
               image: gandhicloud/greetings
-              imagePullPolicy: IfNotPresent
+              imagePullPolicy: Always
               ports:
                 - containerPort: 9092
 ---
