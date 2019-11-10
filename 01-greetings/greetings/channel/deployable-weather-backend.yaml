@@ -18,14 +18,14 @@ spec:
       selector:
         matchLabels:
           app: greetings-app
-          subApp: greetings-channel        
+          subApp: greetings-channel
           comp: weather-backend
       replicas: 1
       template:
         metadata:
           labels:
             app: greetings-app
-            subApp: greetings-channel        
+            subApp: greetings-channel
             comp: weather-backend
         spec:
           containers:
@@ -35,15 +35,15 @@ spec:
               ports:
                 - containerPort: 9094
               env:
-              - name: response.delay.seconds
-                value: 2
+                - name: response.delay.seconds
+                  value: "2"
               resources:
                 requests:
                   memory: "256Mi"
-                  cpu: "100m"
+                  cpu: "200m"
                 limits:
                   memory: "512Mi"
-                  cpu: "200m"
+                  cpu: "400m"
           volumeMounts:
             - name: global-environment
               mountPath: /opt/ibm/apm/serverconfig
@@ -51,7 +51,7 @@ spec:
             - name: global-environment
               secret:
                 secretName: icam-server-secret
-                optional: true                
+                optional: true
 ---
 apiVersion: app.ibm.com/v1alpha1
 kind: Deployable
@@ -81,5 +81,5 @@ spec:
           nodePort: 32424
       selector:
         app: greetings-app
-        subApp: greetings-channel        
+        subApp: greetings-channel
         comp: weather-backend
