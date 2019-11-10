@@ -1,7 +1,7 @@
 apiVersion: app.ibm.com/v1alpha1
 kind: Deployable
 metadata:
-  name: deployment-weather
+  name: deployment-weather-backend
   namespace: greetings-channel-ns
   annotations:
     app.ibm.com/is-local-deployable: "false"
@@ -13,34 +13,37 @@ spec:
     kind: Deployment
     apiVersion: apps/v1
     metadata:
-      name: weather
+      name: weather-backend
     spec:
       selector:
         matchLabels:
           app: greetings-app
           subApp: greetings-channel        
-          comp: weather
+          comp: weather-backend
       replicas: 1
       template:
         metadata:
           labels:
             app: greetings-app
             subApp: greetings-channel        
-            comp: weather
+            comp: weather-backend
         spec:
           containers:
             - name: my-container
-              image: gandhicloud/weather-icam
+              image: gandhicloud/weather-backend-icam
               imagePullPolicy: Always
               ports:
-                - containerPort: 9091
+                - containerPort: 9094
+              env:
+              - name: response.delay.seconds
+                value: 2
               resources:
                 requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
                   memory: "512Mi"
                   cpu: "200m"
-                limits:
-                  memory: "1024Mi"
-                  cpu: "500m"
           volumeMounts:
             - name: global-environment
               mountPath: /opt/ibm/apm/serverconfig
@@ -53,7 +56,7 @@ spec:
 apiVersion: app.ibm.com/v1alpha1
 kind: Deployable
 metadata:
-  name: service-weather
+  name: service-weather-backend
   namespace: greetings-channel-ns
   annotations:
     app.ibm.com/is-local-deployable: "false"
@@ -65,18 +68,18 @@ spec:
     kind: Service
     apiVersion: v1
     metadata:
-      name: weather
+      name: weather-backend
       labels:
         app: greetings-app
         subApp: greetings-channel        
-        comp: weather
+        comp: weather-backend
     spec:
       type: NodePort
       ports:
         - name: my-http
-          port: 9091
-          nodePort: 32421
+          port: 9094
+          nodePort: 32424
       selector:
         app: greetings-app
         subApp: greetings-channel        
-        comp: weather
+        comp: weather-backend
