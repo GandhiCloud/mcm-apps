@@ -37,6 +37,10 @@ spec:
               env:
                 - name: response.delay.seconds
                   value: "2"
+                - name: IBM_APM_RUM_ENABLED
+                  value: "true" 
+                - name: OPENTRACING_ENABLED
+                  value: "true"      
               resources:
                 requests:
                   memory: "256Mi"

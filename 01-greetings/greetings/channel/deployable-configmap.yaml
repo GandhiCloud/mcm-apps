@@ -1,0 +1,24 @@
+apiVersion: app.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: deployable-configmap-greetings
+  namespace: greetings-channel-ns
+  annotations:
+    app.ibm.com/is-local-deployable: "false"
+  labels:
+    app: greetings-app
+    subApp: greetings-channel
+spec:
+  template:
+    kind: ConfigMap
+    apiVersion: v1
+    metadata:
+      name: configmap-greetings
+      labels:
+        app: greetings-app
+        subApp: greetings-channel
+        comp: configmap1
+    # type: Opaque
+    data:
+      url.weather.backend.service: http://weather-backend:9094/weather
+

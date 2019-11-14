@@ -41,6 +41,16 @@ spec:
                 limits:
                   memory: "1024Mi"
                   cpu: "500m"
+              env:
+                - name: IBM_APM_RUM_ENABLED
+                  value: "true"
+                - name: OPENTRACING_ENABLED
+                  value: "true"
+                - name: url.weather.backend.service
+                  valueFrom:
+                    configMapKeyRef:
+                      name: configmap-greetings
+                      key: url.weather.backend.service
           volumeMounts:
             - name: global-environment
               mountPath: /opt/ibm/apm/serverconfig
